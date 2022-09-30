@@ -1,0 +1,32 @@
+name: manage-azure-policy-78626605
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policies/API_Management_service_should_use_a_SKU_that_supports_virtual_networks_73ef9241-5d81-4cd4-b483-8443d1730fe5/**'
+#      - .github/workflows/manage-azure-policy-78626605.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_78626605}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policies/API_Management_service_should_use_a_SKU_that_supports_virtual_networks_73ef9241-5d81-4cd4-b483-8443d1730fe5/**
